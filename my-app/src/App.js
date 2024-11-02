@@ -3,6 +3,20 @@ import './App.css';
 import words from './data/words.json';
 
 function App() {
+
+  const [searchInput, setSearchInput] = useState('');
+  const [lastEntered, setLastEntered] = useState('');
+
+  const handleInputChange = (event) => {
+    setSearchInput(event.target.value);
+  };
+
+  const handleFormSubmit = (event) => {
+    event.preventDefault();
+    setLastEntered(searchInput);
+    setSearchInput('');
+  };
+
   const wordList = words;
   // Initialize positions and velocities START
   const [positions, setPositions] = useState(
@@ -75,14 +89,24 @@ function App() {
       </div>
       
       <div className="BottomBar">
-      <div className="Circle HoldItem">Hold</div>
-        <button className="Circle Stopwatch">Stopwatch AAAAAAAAAAAAAAAAAAA</button>
-        <input type="text" className="SearchBar" placeholder="Search..." />
+      <div className="Circle SavedItem">Saved</div>
+        <button className="Circle Stopwatch">Stopwatch</button>
+        <form onSubmit={handleFormSubmit} className="SearchForm">
+          <input
+            type="text"
+            className="SearchBar"
+            placeholder="Search..."
+            value={searchInput}
+            onChange={handleInputChange}
+          />
+        </form>
         <div className="Circle LargeCircle">3</div>
         <div className="Circle MediumCircle">2</div>
         <div className="Circle SmallCircle">1</div>
       </div>
-      
+      <div className="LastEntered">
+        Last Entered: {lastEntered}
+      </div>
     </div>
   );
 }
