@@ -25,6 +25,10 @@ import './App.css';
 function App() {
   return (
     <div className="App">
+      <audio controls autoPlay loop>
+        <source src={`${process.env.PUBLIC_URL}/unwinding.mp3`} type="audio/mpeg" />
+        Your browser does not support the audio element.
+      </audio>
       <div className="MainContent">
         {}
       </div>
@@ -36,6 +40,7 @@ function App() {
         <div className="Circle MediumCircle">2</div>
         <div className="Circle SmallCircle">1</div>
       </div>
+      
     </div>
   );
 }
