@@ -26,6 +26,10 @@ function App() {
   const wordList = words;
   return (
     <div className="App">
+      <audio controls autoPlay loop>
+        <source src={`${process.env.PUBLIC_URL}/unwinding.mp3`} type="audio/mpeg" />
+        Your browser does not support the audio element.
+      </audio>
       <div className="MainContent">
         {wordList.map((word, index) => (
         <div key={index}>{word}</div> // Display each word
@@ -39,6 +43,7 @@ function App() {
         <div className="Circle MediumCircle">2</div>
         <div className="Circle SmallCircle">1</div>
       </div>
+      
     </div>
   );
 }
