@@ -29,7 +29,7 @@ function App() {
   ); //END
 
   const [speed, setSpeed] = useState(.5);   //Speed
-  const [selectedWordIndex, setSelectedWordIndex] = useState([]); //Selected Words
+  const FilteredWords = ["loupe", 'clank'];
 
   //START
   useEffect(() => {
@@ -81,12 +81,10 @@ function App() {
               position: 'absolute',
               top: pos.top,
               left: pos.left,
-              transition: 'top 0.1s linear, left 0.1s linear', ////
-              cursor: 'pointer', // REMOVE
-              color: selectedWordIndex === index ? 'cyan' : 'white',
-              opacity: selectedWordIndex === index ? '1' : '0.6', 
+              transition: 'top 0.1s linear, left 0.1s linear', 
+              color: FilteredWords.includes(wordList[index]) ? 'cyan' : 'white',
+              opacity: FilteredWords.includes(wordList[index]) ? '1' : '0.6', 
             }}
-            onClick={() => setSelectedWordIndex(index)} //REMOVE
           >
             {wordList[index]} {}
           </div>
