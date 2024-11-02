@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-
+import words from './data/words.json';
 // function App() {
 //   return (
 //     <div className="App">
@@ -23,10 +23,13 @@ import './App.css';
 // }
 
 function App() {
+  const wordList = words;
   return (
     <div className="App">
       <div className="MainContent">
-        {}
+        {wordList.map((word, index) => (
+        <div key={index}>{word}</div> // Display each word
+      ))}
       </div>
       <div className="BottomBar">
       <div className="Circle HoldItem">Hold</div>
