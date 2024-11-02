@@ -57,11 +57,23 @@ function App() {
         <source src={`${process.env.PUBLIC_URL}/unwinding.mp3`} type="audio/mpeg" />
         Your browser does not support the audio element.
       </audio>
+
       <div className="MainContent">
-        {wordList.map((word, index) => (
-        <div key={index}>{word}</div> // Display each word
-      ))}
+        {positions.map((pos, index) => (
+          <div
+            key={index}
+            style={{
+              position: 'absolute',
+              top: pos.top,
+              left: pos.left,
+              transition: 'top 0.1s linear, left 0.1s linear', // Smooth transition
+            }}
+          >
+            {wordList[index]} {/* Display each word */}
+          </div>
+        ))}
       </div>
+      
       <div className="BottomBar">
       <div className="Circle HoldItem">Hold</div>
         <button className="Circle Stopwatch">Stopwatch</button>
