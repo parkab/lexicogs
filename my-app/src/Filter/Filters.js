@@ -1,18 +1,15 @@
-import React, { useState } from 'react';
-
-
 // filters.js
 const filters = [
   {
-    label: 'Starts With',
+    label: 'a-',
     apply: (wordList, input) => wordList.filter(word => word.startsWith(input)),
   },
   {
-    label: 'Ends With',
+    label: '-z',
     apply: (wordList, input) => wordList.filter(word => word.endsWith(input)),
   },
   {
-    label: 'Length is Exactly',
+    label: 'n=',
     apply: (wordList, input) => {
       const length = parseInt(input, 10);
       return wordList.filter(word => word.length === length);
@@ -20,7 +17,7 @@ const filters = [
   },
   // additional filter types are added here
 ];
-export default Filter ;
+export default filters;
 /*
 const WordFilter = ({ words, setFilteredWords }) => {
   const [input, setInput] = useState('');

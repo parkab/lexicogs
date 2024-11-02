@@ -80,7 +80,7 @@
 }
 
 .SearchBar {
-  width: 95%;
+  width: 80%;
   margin: 0 10px;
   padding: 5px;
   border-radius: 5px;
@@ -88,18 +88,29 @@
 }
 
 .SmallCircle {
-  width: 30px;
-  height: 30px;
-}
-
-.MediumCircle {
   width: 40px;
   height: 40px;
 }
 
-.LargeCircle {
+.MediumCircle {
   width: 50px;
   height: 50px;
+}
+
+.LargeCircle {
+  width: 60px;
+  height: 60px;
+}
+
+.LastEntered {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.CurrentFilter {
+  color: rgb(6, 255, 164);
+  margin-left: 10px;
+  font-size: 1.2em;
 }
 
 .LastEntered {
