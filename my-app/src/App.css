@@ -42,12 +42,12 @@
 
 .BottomBar {
   height: 20%;
-  background-color: #282c34;
+  background-color: #A54F1D;
   color: white;
   display: flex;
   align-items: center;
   justify-content: space-around;
-  padding: 0 10px;
+  padding: 0 20px;
 }
 
 .Circle {
@@ -55,9 +55,10 @@
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background-color: #61dafb;
+  background-color: #D97330;
   color: black;
   text-align: center;
+  margin: 0 10px;
 }
 
 .SavedItem {
@@ -75,10 +76,11 @@
 .SearchForm {
   flex: 1;
   margin: 0 10px;
+  justify-content: center;
 }
 
 .SearchBar {
-  flex: 1;
+  width: 95%;
   margin: 0 10px;
   padding: 5px;
   border-radius: 5px;
