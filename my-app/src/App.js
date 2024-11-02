@@ -94,13 +94,15 @@ function App() {
   } ;
 
   return (
-    <div className="App">
-      <audio controls autoPlay loop>
-        <source src={`${process.env.PUBLIC_URL}/unwinding.mp3`} type="audio/mpeg" />
-        Your browser does not support the audio element.
-      </audio>
-      
-      {isPlaying ? (
+  <div className="App">
+    {isPlaying ? (
+      <>
+        {/* Game content: visible only when `isPlaying` is true */}
+        <audio controls autoPlay loop>
+          <source src={`${process.env.PUBLIC_URL}/unwinding.mp3`} type="audio/mpeg" />
+          Your browser does not support the audio element.
+        </audio>
+        
         <div className="MainContent">
           {positions.map((pos, index) => (
             <div
@@ -111,39 +113,43 @@ function App() {
                 left: pos.left,
                 transition: 'top 0.1s linear, left 0.1s linear',
                 color: FilteredWords.includes(wordList[index]) ? 'cyan' : 'white',
-                opacity: FilteredWords.includes(wordList[index]) ? '1' : '0.6', 
+                opacity: FilteredWords.includes(wordList[index]) ? '1' : '0.6',
               }}
             >
               {wordList[index]} {}
             </div>
           ))}
         </div>
-      ) : (
-        <HomePage onStart={startGame} />
-      )}
-      
-      <div className="BottomBar">
-      <div className="Circle SavedItem">Saved</div>
-        <button className="Circle Stopwatch">Stopwatch</button>
-        <form onSubmit={handleFormSubmit} className="SearchForm">
-          <input
-            type="text"
-            className="SearchBar"
-            placeholder="Search..."
-            value={searchInput}
-            onChange={handleInputChange}
-          />
-        </form>
-        <div className="CurrentFilter">{currentFilter?.label}</div>
-        <div className="Circle LargeCircle">{circleFilters[0]?.label}</div>
-        <div className="Circle MediumCircle">{circleFilters[1]?.label}</div>
-        <div className="Circle SmallCircle">{circleFilters[2]?.label}</div>
-      </div>
-      <div className="LastEntered">
-        Last Entered: {lastEntered}
-      </div>
-    </div>
-  );
+
+        <div className="BottomBar">
+          <div className="Circle SavedItem">Saved</div>
+          <button className="Circle Stopwatch">Stopwatch</button>
+          <form onSubmit={handleFormSubmit} className="SearchForm">
+            <input
+              type="text"
+              className="SearchBar"
+              placeholder="Search..."
+              value={searchInput}
+              onChange={handleInputChange}
+            />
+          </form>
+          <div className="CurrentFilter">{currentFilter?.label}</div>
+          <div className="Circle LargeCircle">{circleFilters[0]?.label}</div>
+          <div className="Circle MediumCircle">{circleFilters[1]?.label}</div>
+          <div className="Circle SmallCircle">{circleFilters[2]?.label}</div>
+        </div>
+        
+        <div className="LastEntered">
+          Last Entered: {lastEntered}
+        </div>
+      </>
+    ) : (
+      // Render only the HomePage when `isPlaying` is false
+      <HomePage onStart={startGame} />
+    )}
+  </div>
+);
+
 }
 
 export default App;
