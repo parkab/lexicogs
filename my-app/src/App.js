@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import HomePage from './Homepage.js' ;
 import './App.css';
 import words from './data/words.json';
 
 function App() {
-
+  const [isPlaying, setIsPlaying] = useState(false) ;
   const [searchInput, setSearchInput] = useState('');
   const [lastEntered, setLastEntered] = useState('');
 
@@ -65,6 +66,10 @@ function App() {
       //console.log("Interval cleared");
     };
   }, []); // END
+//function to start the game
+  const startGame = () => {
+    setIsPlaying(true) ;
+  } ;
 
   return (
     <div className="App">
@@ -72,24 +77,28 @@ function App() {
         <source src={`${process.env.PUBLIC_URL}/unwinding.mp3`} type="audio/mpeg" />
         Your browser does not support the audio element.
       </audio>
-
-      <div className="MainContent">
-        {positions.map((pos, index) => (
-          <div
-            key={index}
-            style={{
-              position: 'absolute',
-              top: pos.top,
-              left: pos.left,
-              transition: 'top 0.1s linear, left 0.1s linear', 
-              color: FilteredWords.includes(wordList[index]) ? 'cyan' : 'white',
-              opacity: FilteredWords.includes(wordList[index]) ? '1' : '0.6', 
-            }}
-          >
-            {wordList[index]} {}
-          </div>
-        ))}
-      </div>
+      
+      {isPlaying ? (
+        <div className="MainContent">
+          {positions.map((pos, index) => (
+            <div
+              key={index}
+              style={{
+                position: 'absolute',
+                top: pos.top,
+                left: pos.left,
+                transition: 'top 0.1s linear, left 0.1s linear',
+                color: FilteredWords.includes(wordList[index]) ? 'cyan' : 'white',
+                opacity: FilteredWords.includes(wordList[index]) ? '1' : '0.6', 
+              }}
+            >
+              {wordList[index]} {}
+            </div>
+          ))}
+        </div>
+      ) : (
+        <HomePage onStart={startGame} />
+      )}
       
       <div className="BottomBar">
       <div className="Circle SavedItem">Saved</div>
