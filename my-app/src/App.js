@@ -18,31 +18,30 @@ function App() {
   };
 
   const wordList = words;
-  // Initialize positions and velocities START
+  //START
   const [positions, setPositions] = useState(
     wordList.map(() => ({
-      top: Math.random() * 80 + '%', // Random top position
-      left: Math.random() * 80 + '%', // Random left position
-      velocityX: (Math.random() - 0.5) * 2, // Random horizontal velocity
-      velocityY: (Math.random() - 0.5) * 2, // Random vertical velocity
+      top: Math.random() * 80 + '%', 
+      left: Math.random() * 80 + '%',
+      velocityX: (Math.random() - 0.5) * 2,
+      velocityY: (Math.random() - 0.5) * 2, 
     }))
   ); //END
-
-  // Update positions every frame START
+  const [speed, setSpeed] = useState(.5);
+  //START
   useEffect(() => {
     const updatePositions = () => {
       setPositions((prevPositions) =>
         prevPositions.map((pos) => {
-          let newX = parseFloat(pos.left) + pos.velocityX;
-          let newY = parseFloat(pos.top) + pos.velocityY;
+          let newX = parseFloat(pos.left) + pos.velocityX * speed;
+          let newY = parseFloat(pos.top) + pos.velocityY * speed;
 
-          // Bounce off the edges
-          if (newX > 90 || newX < 0) {
-            pos.velocityX *= -1; // Reverse direction
+          if (newX > 95 || newX < 0) {
+            pos.velocityX *= -1; 
             console.log(`Reversed X velocity for position: ${pos.left}, ${pos.top}`);
           }
-          if (newY > 90 || newY < 0) {
-            pos.velocityY *= -1; // Reverse direction
+          if (newY > 95 || newY < 0) {
+            pos.velocityY *= -1; 
             console.log(`Reversed Y velocity for position: ${pos.left}, ${pos.top}`);
           }
 
@@ -53,12 +52,11 @@ function App() {
           };
         })
       );
-      console.log("Updated positions:", positions); // Log updated positions
+      console.log("Updated positions:", positions);
     };
 
-    const interval = setInterval(updatePositions, 1000 / 60); // 60 FPS
+    const interval = setInterval(updatePositions, 1000 / 60);
 
-    // Cleanup function to clear the interval
     return () => {
       clearInterval(interval);
       console.log("Interval cleared");
@@ -80,10 +78,10 @@ function App() {
               position: 'absolute',
               top: pos.top,
               left: pos.left,
-              transition: 'top 0.1s linear, left 0.1s linear', // Smooth transition
+              transition: 'top 0.1s linear, left 0.1s linear',
             }}
           >
-            {wordList[index]} {/* Display each word */}
+            {wordList[index]} {}
           </div>
         ))}
       </div>
