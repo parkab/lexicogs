@@ -27,7 +27,10 @@ function App() {
       velocityY: (Math.random() - 0.5) * 2, 
     }))
   ); //END
-  const [speed, setSpeed] = useState(.5);
+
+  const [speed, setSpeed] = useState(.5);   //Speed
+  const [selectedWordIndex, setSelectedWordIndex] = useState([]); //Selected Words
+
   //START
   useEffect(() => {
     const updatePositions = () => {
@@ -38,11 +41,11 @@ function App() {
 
           if (newX > 95 || newX < 0) {
             pos.velocityX *= -1; 
-            console.log(`Reversed X velocity for position: ${pos.left}, ${pos.top}`);
+            //console.log(`Reversed X velocity for position: ${pos.left}, ${pos.top}`);
           }
           if (newY > 95 || newY < 0) {
             pos.velocityY *= -1; 
-            console.log(`Reversed Y velocity for position: ${pos.left}, ${pos.top}`);
+            //console.log(`Reversed Y velocity for position: ${pos.left}, ${pos.top}`);
           }
 
           return {
@@ -52,14 +55,14 @@ function App() {
           };
         })
       );
-      console.log("Updated positions:", positions);
+      //console.log("Updated positions:", positions);
     };
 
     const interval = setInterval(updatePositions, 1000 / 60);
 
     return () => {
       clearInterval(interval);
-      console.log("Interval cleared");
+      //console.log("Interval cleared");
     };
   }, []); // END
 
@@ -78,8 +81,12 @@ function App() {
               position: 'absolute',
               top: pos.top,
               left: pos.left,
-              transition: 'top 0.1s linear, left 0.1s linear',
+              transition: 'top 0.1s linear, left 0.1s linear', ////
+              cursor: 'pointer', // REMOVE
+              color: selectedWordIndex === index ? 'cyan' : 'white',
+              opacity: selectedWordIndex === index ? '1' : '0.6', 
             }}
+            onClick={() => setSelectedWordIndex(index)} //REMOVE
           >
             {wordList[index]} {}
           </div>
