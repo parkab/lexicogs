@@ -37,7 +37,7 @@ function App() {
       </div>
       <div className="BottomBar">
       <div className="Circle HoldItem">Hold</div>
-        <button className="Circle Stopwatch">Stopwatch</button>
+        <button className="Circle Stopwatch">Stopwatch AAAAAAAAAAAAAAAAAAA</button>
         <input type="text" className="SearchBar" placeholder="Search..." />
         <div className="Circle LargeCircle">3</div>
         <div className="Circle MediumCircle">2</div>
