@@ -1,1 +1,2 @@
 # lexicogs
+In this game, the user is tasked to find a target word hidden among hundreds of other moving words. The user will have access to filter tools to narrow down the amount of words on the screen, however the user must use the tools in the given order. A timer will count down once the game starts and the only way the user can recover time is by either guessing the correct word or by successfully filtering the group of words. Players will also have limited access to a stopwatch that will slow down the movement of all word also pause the timer.
