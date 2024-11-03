@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './App.css';
 import Controls from './Controls.js';
 import words from './data/words.json';
@@ -18,6 +18,7 @@ function App() {
   const [isPlaying, setIsPlaying] = useState(false) ;
   const [gameOver, setGameOver] = useState(false) ;
   const [showControls, setShowControls] = useState(false) ;
+  const [finalScore, setFinalScore] = useState(0);
 
   //user inputs
   const [searchInput, setSearchInput] = useState('');
@@ -37,6 +38,13 @@ function App() {
 
   const [hint, setHint] = useState("");
   const [revealedLettersCount, setRevealedLettersCount] = useState(0);
+  const searchBarRef = useRef(null);
+
+  useEffect(() => {
+    if (isPlaying) {
+      searchBarRef.current.focus();
+    }
+  }, [isPlaying]);
 
   const [speed, setSpeed] = useState(baseSpeed);   //Speed
   const [watchTime, setWatchTime] = useState(10.0); 
@@ -52,6 +60,12 @@ function App() {
     const randomWord = words[Math.floor(Math.random() * words.length)];
     setChosenWord(randomWord);
   }, []);
+
+  useEffect(() => {
+    if (!isPlaying && gameOver) {
+      setFinalScore(wordsGuessedRight);
+    }
+  }, [isPlaying, gameOver, wordsGuessedRight]);
 
   const getRandomFilters = (count) => {
     // const shuffledFilters = filters.sort(() => 0.5 - Math.random());
@@ -79,6 +93,19 @@ function App() {
     setFilterCount(filterCount + count);
     return selectedFilters;
   };
+
+  const resetGame = () => {
+    const initialFilters = getRandomFilters(4);
+    setCurrentFilter(initialFilters[0]);
+    setCircleFilters(initialFilters.slice(1));
+    setCurWordList(words);
+    const randomWord = words[Math.floor(Math.random() * words.length)];
+    setChosenWord(randomWord);
+    setFilteredWords([]);
+    setWordsGuessedRight(0);
+    setTimeLeft(60);
+  };
+
   //Hint Setup
   useEffect(() => {
     setHint("_ _ . . . _ _");
@@ -215,6 +242,7 @@ function App() {
       setFilteredWords([]);
       const randomWord = words[Math.floor(Math.random() * words.length)];
       setChosenWord(randomWord);
+      setTimeLeft((prevTimeLeft) => prevTimeLeft + 30);
     }
     else {
       //shifting the filters along
@@ -235,6 +263,7 @@ function App() {
           setGameOver(true) ;
           setIsPlaying(false) ;
           clearInterval(timer) ;
+          resetGame();
           return 0 ;
         }
         return prevTime - 1 ;
@@ -300,6 +329,22 @@ useEffect(() => {
   }
   return () => clearInterval(timer);
 }, [isWatchActive]);
+
+useEffect(() => {
+  let incrementTimer;
+  if (!isWatchActive && watchTime < 10) { // Assuming 10 is the max watch time
+    incrementTimer = setInterval(() => {
+      setWatchTime((prevTime) => {
+        const newTime = prevTime + 0.1;
+        if (newTime >= 10) {
+          return 10; // Cap the watch time at 10
+        }
+        return newTime;
+      });
+    }, 1000); // Increment every second
+  }
+  return () => clearInterval(incrementTimer);
+}, [isWatchActive, watchTime])
 
   //MOVING WORDS
   useEffect(() => {
@@ -406,6 +451,7 @@ useEffect(() => {
                 placeholder="Search..."
                 value={searchInput}
                 onChange={handleInputChange}
+                ref={searchBarRef}
               />
             </form>
             <div className="CurrentFilter">{currentFilter?.label}</div>
@@ -419,7 +465,7 @@ useEffect(() => {
           </div>
         </>
       ) : gameOver ? (
-        <GameOver onRestart ={startGame} onReturnToTitle={returnToTitle} />
+        <GameOver score={wordsGuessedRight} onRestart ={startGame} onReturnToTitle={returnToTitle}/>
       ) : showControls ? (
         <Controls onReturnToTitle={returnToTitle} />
       ) : (
