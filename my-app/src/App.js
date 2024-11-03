@@ -133,13 +133,24 @@ function App() {
 
 
   const [speed, setSpeed] = useState(2);   //Speed
+  const [watchTime, setWatchTime] = useState(10); 
+  const [isWatchActive, setIsWatchActive] = useState(false);
   //const FilteredWords = ["loupe", 'clank'];
 
  // CTRL keydown to toggle speed
  useEffect(() => {
   const handleKeyDown = (event) => {
     if (event.key === 'Control' || event.code === 'ControlLeft') {
-      setSpeed((prevSpeed) => (prevSpeed === 2 ? 0.3 : 2));
+      if (watchTime > 0) {
+        setSpeed((prevSpeed) => {
+          const newSpeed = prevSpeed === 2 ? 0.3 : 2;
+          setIsWatchActive(newSpeed === 0.3);
+          return newSpeed;
+        });
+      } else if (speed === 0.3) {
+        setSpeed(2);
+        setIsWatchActive(false);
+      }
     }
   };
 
@@ -148,7 +159,27 @@ function App() {
   return () => {
     window.removeEventListener('keydown', handleKeyDown);
   };
-}, []); //END SPEED CONTROL
+}, [watchTime]); //END SPEED CONTROL
+
+// Watch timer countdown
+useEffect(() => {
+  let timer;
+  if (isWatchActive && watchTime > 0) {
+    timer = setInterval(() => {
+      setWatchTime((prevTime) => {
+        const newTime = prevTime - 1;
+        if (newTime <= 0) {
+          // When time runs out, force speed back to normal
+          setSpeed(2);
+          setIsWatchActive(false);
+          return 0;
+        }
+        return newTime;
+      });
+    }, 1000);
+  }
+  return () => clearInterval(timer);
+}, [isWatchActive]);
 
   //MOVING WORDS
   useEffect(() => {
@@ -192,6 +223,9 @@ function App() {
 
     setTimeLeft(60) ;
     setGameOver(false) ;
+    setWatchTime(10); 
+    setSpeed(2);
+    setIsWatchActive(false);
   } ;
 
   return (
@@ -228,7 +262,10 @@ function App() {
 
           <div className="BottomBar">
             <div className="Circle SavedItem">Saved</div>
-            <button className="Circle Stopwatch">Stopwatch</button>
+            <div className="WatchContainer">
+              <button className="Watch"></button>
+              <div className="WatchTimer">{watchTime}s</div>
+            </div>
             <form onSubmit={handleFormSubmit} className="SearchForm">
               <input
                 type="text"
