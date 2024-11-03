@@ -114,7 +114,7 @@ function App() {
         });
         setRevealedLettersCount(revealedLettersCount + 1);
       }
-    }, 15000); // Every 15 seconds
+    }, 10000); 
 
     return () => clearInterval(revealInterval);
   }, [revealedLettersCount, chosenWord]);
@@ -150,7 +150,7 @@ function App() {
       if (FilteredWords.includes(chosenWord)) {
         const correctSound = document.getElementById('correct');
         correctSound.play();
-        setTimeLeft((prevTimeLeft) => prevTimeLeft + 10);
+        setTimeLeft((prevTimeLeft) => prevTimeLeft + 5);
         const mainContainer = document.querySelector('.MainContent');
         if (mainContainer) {
           mainContainer.classList.add('bounce');
@@ -341,7 +341,7 @@ useEffect(() => {
     const randomWord = words[Math.floor(Math.random() * words.length)];
     setChosenWord(randomWord);
 
-    setTimeLeft(60) ;
+    setTimeLeft(90) ;
     setGameOver(false) ;
     setWatchTime(10); 
     setBaseSpeed(0.5);
@@ -360,7 +360,7 @@ useEffect(() => {
     <div className="App">
       {isPlaying ? (
         <>
-          {/* Game content: visible only when isPlaying is true */}
+          {}
           <audio id="shake-sound" src={`${process.env.PUBLIC_URL}/wrong.mp3`} preload="auto"></audio>
           <audio id="correct" src={`${process.env.PUBLIC_URL}/correct.mp3`} preload="auto"></audio>
           <audio id="big_ding" src={`${process.env.PUBLIC_URL}/big_ding.mp3`} preload="auto"></audio>
@@ -415,7 +415,7 @@ useEffect(() => {
           </div>
           
           <div className="LastEntered">
-            Last Entered: {lastEntered} || Chosen Word: {chosenWord}
+            Last Entered: {lastEntered} 
           </div>
         </>
       ) : gameOver ? (
