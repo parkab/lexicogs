@@ -140,6 +140,33 @@
   text-align: center;
 }
 
+.GameOverScreen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+  background-color: #111;
+  color: #fff;
+}
+
+.GameOverScreen h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.GameOverScreen p {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.GameOverScreen button {
+  padding: 0.5rem 2rem;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
