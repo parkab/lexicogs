@@ -35,7 +35,7 @@ function App() {
     setCircleFilters(initialFilters.slice(1));
     //console.log('Initial Filters:', initialFilters);
 
-    const randomWord = wordList[Math.floor(Math.random() * wordList.length)];
+    const randomWord = words[Math.floor(Math.random() * words.length)];
     setChosenWord(randomWord);
   }, []);
 
@@ -66,6 +66,12 @@ function App() {
     return selectedFilters;
   };
 
+  useEffect(() => {
+    if (currentFilter?.label === '*') {
+      setSearchInput('Filter!');
+    }
+  }, [currentFilter]);
+
   const handleInputChange = (event) => {
     if (currentFilter?.label === '*') {
       setSearchInput('Filter!');
@@ -78,6 +84,10 @@ function App() {
     event.preventDefault();
     setLastEntered(searchInput);
 
+    if (searchInput === '') {
+      return;
+    }
+
     // if (currentFilter) {
     //   const filtered = currentFilter.apply(words, searchInput);
     //   setFilteredWords(filtered);
@@ -85,8 +95,33 @@ function App() {
 
     if (searchInput === 'Filter!') {
       if (FilteredWords.includes(chosenWord)) {
+        const correctSound = document.getElementById('correct');
+        correctSound.play();
+
+        const mainContainer = document.querySelector('.MainContent');
+        if (mainContainer) {
+          mainContainer.classList.add('bounce');
+
+          setTimeout(() => {
+            mainContainer.classList.remove('bounce');
+          }, 500);
+        }
+
         setCurWordList(FilteredWords);
         //wordList = FilteredWords;
+
+      }
+      else {
+        const mainContainer = document.querySelector('.MainContent');
+        mainContainer.classList.add('shake');
+        const shakeSound = document.getElementById('shake-sound');
+        shakeSound.play();
+        //mainContainer.classList.add('overlay');
+
+        setTimeout(() => {
+          mainContainer.classList.remove('shake');
+          //mainContainer.classList.remove('overlay');
+        }, 500);
       }
       setFilteredWords([]);
     } else if (currentFilter) {
@@ -95,9 +130,23 @@ function App() {
         ...new Set([...prevFilteredWords, ...filtered]),
       ]);
       //setCurWordList(filtered); //IMPORTANT LINE
+      const clickSound = document.getElementById('click');
+      clickSound.play();
     }
 
     if (searchInput === chosenWord) {
+
+      const dingSound = document.getElementById('big_ding');
+      dingSound.play();
+
+      const mainContainer = document.querySelector('.MainContent');
+      if (mainContainer) {
+        mainContainer.classList.add('scale-down');
+
+        setTimeout(() => {
+          mainContainer.classList.remove('scale-down');
+        }, 500);
+      }
       
       setBaseSpeed(prevBaseSpeed => {
         const newSpeed = prevBaseSpeed + 1;
@@ -108,9 +157,9 @@ function App() {
       setWordsGuessedRight(wordsGuessedRight + 1);
       
       setCurWordList(words);
-      const randomWord = wordList[Math.floor(Math.random() * wordList.length)];
-      setChosenWord(randomWord);
       setFilteredWords([]);
+      const randomWord = words[Math.floor(Math.random() * words.length)];
+      setChosenWord(randomWord);
     }
     else {
       //shifting the filters along
@@ -237,7 +286,7 @@ useEffect(() => {
     setIsPlaying(true) ;
 
     setCurWordList(words);
-    const randomWord = wordList[Math.floor(Math.random() * wordList.length)];
+    const randomWord = words[Math.floor(Math.random() * words.length)];
     setChosenWord(randomWord);
 
     setTimeLeft(1000) ;
@@ -260,6 +309,10 @@ useEffect(() => {
       {isPlaying ? (
         <>
           {/* Game content: visible only when isPlaying is true */}
+          <audio id="shake-sound" src={`${process.env.PUBLIC_URL}/wrong.mp3`}></audio>
+          <audio id="correct" src={`${process.env.PUBLIC_URL}/correct.mp3`}></audio>
+          <audio id="big_ding" src={`${process.env.PUBLIC_URL}/big_ding.mp3`}></audio>
+          <audio id="click" src={`${process.env.PUBLIC_URL}/click.mp3`}></audio>
           <audio controls autoPlay loop>
             <source src={`${process.env.PUBLIC_URL}/unwinding.mp3`} type="audio/mpeg" />
             Your browser does not support the audio element.
