@@ -5,18 +5,24 @@ import filters from './Filter/Filters.js';
 import HomePage from './Homepage.js';
 
 function App() {
+  //game state
   const [isPlaying, setIsPlaying] = useState(false) ;
+  const [gameOver, setGameOver] = useState(false) ;
+
+  //user inputs
   const [searchInput, setSearchInput] = useState('');
   const [lastEntered, setLastEntered] = useState('');
+  
+  //filters
   const [currentFilter, setCurrentFilter] = useState(null);
   const [circleFilters, setCircleFilters] = useState([]);
   const [FilteredWords, setFilteredWords] = useState([]);
   const [chosenWord, setChosenWord] = useState('');
   const [wordList, setCurWordList] = useState(words);
   const [filterCount, setFilterCount] = useState(0);
+  const [timeLeft, setTimeLeft] = useState(60);
 
-  //const wordList = words;
-
+  //filter setup
   useEffect(() => {
     const initialFilters = getRandomFilters(4);
     setCurrentFilter(initialFilters[0]);
@@ -95,7 +101,26 @@ function App() {
     ]);
   };
 
-  //START
+  //countdown timer
+  useEffect(() => {
+    if (!isPlaying) return;
+
+    const timer = setInterval(() => {
+      setTimeLeft((prevTime) => {
+        if (prevTime <= 1) {
+          setGameOver(true) ;
+          setIsPlaying(false) ;
+          clearInterval(timer) ;
+          return 0 ;
+        }
+        return prevTime - 1 ;
+      }) ;
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [isPlaying]); 
+
+  //initial positions
   const [positions, setPositions] = useState(
     wordList.map(() => ({
       top: Math.random() * 80 + '%', 
@@ -103,12 +128,28 @@ function App() {
       velocityX: (Math.random() - 0.5) * 2,
       velocityY: (Math.random() - 0.5) * 2, 
     }))
-  ); //END
+  ); //END SET STARTING POSITION OF WORDS
 
-  const [speed, setSpeed] = useState(.5);   //Speed
-  //const FilteredWords = ["loupe", 'clank']; //
 
-  //START
+  const [speed, setSpeed] = useState(2);   //Speed
+  //const FilteredWords = ["loupe", 'clank'];
+
+ // CTRL keydown to toggle speed
+ useEffect(() => {
+  const handleKeyDown = (event) => {
+    if (event.key === 'Control' || event.code === 'ControlLeft') {
+      setSpeed((prevSpeed) => (prevSpeed === 2 ? 0.3 : 2));
+    }
+  };
+
+  window.addEventListener('keydown', handleKeyDown);
+
+  return () => {
+    window.removeEventListener('keydown', handleKeyDown);
+  };
+}, []); //END SPEED CONTROL
+
+  //MOVING WORDS
   useEffect(() => {
     const updatePositions = () => {
       setPositions((prevPositions) =>
@@ -118,11 +159,9 @@ function App() {
 
           if (newX > 95 || newX < 0) {
             pos.velocityX *= -1; 
-            //console.log(`Reversed X velocity for position: ${pos.left}, ${pos.top}`);
           }
           if (newY > 95 || newY < 0) {
             pos.velocityY *= -1; 
-            //console.log(`Reversed Y velocity for position: ${pos.left}, ${pos.top}`);
           }
 
           return {
@@ -132,73 +171,90 @@ function App() {
           };
         })
       );
-      //console.log("Updated positions:", positions);
     };
 
     const interval = setInterval(updatePositions, 1000 / 60);
 
     return () => {
       clearInterval(interval);
-      //console.log("Interval cleared");
     };
-  }, []); // END
+
+  }, [speed]); // END MOVING WORDS
+
 //function to start the game
   const startGame = () => {
     setIsPlaying(true) ;
+    setTimeLeft(60) ;
+    setGameOver(false) ;
   } ;
 
   return (
     <div className="App">
-      <audio controls autoPlay loop>
-        <source src={`${process.env.PUBLIC_URL}/unwinding.mp3`} type="audio/mpeg" />
-        Your browser does not support the audio element.
-      </audio>
-      
       {isPlaying ? (
-        <div className="MainContent">
-          {positions.map((pos, index) => (
-            <div
-              key={index}
-              style={{
-                position: 'absolute',
-                top: pos.top,
-                left: pos.left,
-                transition: 'top 0.1s linear, left 0.1s linear',
-                color: FilteredWords.includes(wordList[index]) ? 'cyan' : 'white',
-                opacity: FilteredWords.includes(wordList[index]) ? '1' : '0.6', 
-              }}
-            >
-              {wordList[index]} {}
-            </div>
-          ))}
+        <>
+          {/* Game content: visible only when isPlaying is true */}
+          <audio controls autoPlay loop>
+            <source src={`${process.env.PUBLIC_URL}/unwinding.mp3`} type="audio/mpeg" />
+            Your browser does not support the audio element.
+          </audio>
+
+          <div className="TopBar">
+            <div className="Timer">{timeLeft} seconds</div>
+          </div>      
+
+          <div className="MainContent">
+            {positions.map((pos, index) => (
+              <div
+                key={index}
+                style={{
+                  position: 'absolute',
+                  top: pos.top,
+                  left: pos.left,
+                  transition: 'top 0.1s linear, left 0.1s linear',
+                  color: FilteredWords.includes(wordList[index]) ? 'cyan' : 'white',
+                  opacity: FilteredWords.includes(wordList[index]) ? '1' : '0.6',
+                }}
+              >
+                {wordList[index]} {}
+              </div>
+            ))}
+          </div>
+
+          <div className="BottomBar">
+            <div className="Circle SavedItem">Saved</div>
+            <button className="Circle Stopwatch">Stopwatch</button>
+            <form onSubmit={handleFormSubmit} className="SearchForm">
+              <input
+                type="text"
+                className="SearchBar"
+                placeholder="Search..."
+                value={searchInput}
+                onChange={handleInputChange}
+              />
+            </form>
+            <div className="CurrentFilter">{currentFilter?.label}</div>
+            <div className="Circle LargeCircle">{circleFilters[0]?.label}</div>
+            <div className="Circle MediumCircle">{circleFilters[1]?.label}</div>
+            <div className="Circle SmallCircle">{circleFilters[2]?.label}</div>
+          </div>
+          
+          <div className="LastEntered">
+            Last Entered: {lastEntered} || Chosen Word: {chosenWord}
+          </div>
+        </>
+      ) : gameOver ? (
+        <div className="GameOverScreen">
+          <h1>Game Over</h1>
+          <p>Time is up! Dr. OctoSplunker grappled you.</p>
+          <button onClick={startGame}>Play Again</button>
         </div>
       ) : (
+        // Render only the HomePage when `isPlaying` is false
         <HomePage onStart={startGame} />
       )}
-      
-      <div className="BottomBar">
-      <div className="Circle SavedItem">Saved</div>
-        <button className="Circle Stopwatch">Stopwatch</button>
-        <form onSubmit={handleFormSubmit} className="SearchForm">
-          <input
-            type="text"
-            className="SearchBar"
-            placeholder="Search..."
-            value={searchInput}
-            onChange={handleInputChange}
-            //disabled={currentFilter?.label === '*'}
-          />
-        </form>
-        <div className="CurrentFilter">{currentFilter?.label}</div>
-        <div className="Circle LargeCircle">{circleFilters[0]?.label}</div>
-        <div className="Circle MediumCircle">{circleFilters[1]?.label}</div>
-        <div className="Circle SmallCircle">{circleFilters[2]?.label}</div>
-      </div>
-      <div className="LastEntered">
-        Last Entered: {lastEntered} || Chosen Word: {chosenWord}
-      </div>
     </div>
   );
+
 }
 
 export default App;
