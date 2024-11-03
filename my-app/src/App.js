@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import HomePage from './Homepage.js' ;
+import GameOver from './Gameover.js' ;
 import './App.css';
 import words from './data/words.json';
 import filters from './Filter/Filters.js';
@@ -199,11 +200,7 @@ function App() {
           </div>
         </>
       ) : gameOver ? (
-        <div className="GameOverScreen">
-          <h1>Game Over</h1>
-          <p>Time is up! Dr. OctoSplunker grappled you.</p>
-          <button onClick={startGame}>Play Again</button>
-        </div>
+        <GameOver onRestart ={startGame} />
       ) : (
         // Render only the HomePage when `isPlaying` is false
         <HomePage onStart={startGame} />
