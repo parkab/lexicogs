@@ -4,7 +4,6 @@ import GameOver from './Gameover.js' ;
 import './App.css';
 import words from './data/words.json';
 import filters from './Filter/Filters.js';
-import HomePage from './Homepage.js';
 
 function App() {
   //game state
