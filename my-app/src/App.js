@@ -332,7 +332,7 @@ useEffect(() => {
     const randomWord = words[Math.floor(Math.random() * words.length)];
     setChosenWord(randomWord);
 
-    setTimeLeft(1000) ;
+    setTimeLeft(60) ;
     setGameOver(false) ;
     setWatchTime(10); 
     setBaseSpeed(0.5);
@@ -386,7 +386,6 @@ useEffect(() => {
           </div>
 
           <div className="BottomBar">
-            <div className="Circle SavedItem">Saved</div>
             <div className="WatchContainer">
               <button className="Watch"></button>
               <div className="WatchTimer">{watchTime.toFixed(1)}s</div>

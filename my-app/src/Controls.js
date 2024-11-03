@@ -17,17 +17,4 @@ const Controls = ({ onReturnToTitle }) => {
       </div>
     );
   };
-/*
-function Controls({ onReturnToTitle }) {
-  return (
-    <div className="ControlsScreen">
-      <h1>Game Controls</h1>
-      <p>Ctrl: Slows down time</p>
-      <p>Keyboard: Inputs for filters</p>
-      <p>Enter: Applies your filter</p>
-      <button onClick={onReturnToTitle}>Return to Title</button>
-    </div>
-  );
-}
-*/
 export default Controls;
