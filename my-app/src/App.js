@@ -1,10 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import HomePage from './Homepage.js' ;
-import Controls from './Controls.js' ;
-import GameOver from './Gameover.js' ;
 import './App.css';
+import Controls from './Controls.js';
 import words from './data/words.json';
 import filters from './Filter/Filters.js';
+import GameOver from './Gameover.js';
+import HomePage from './Homepage.js';
+
+const getRandomWords = (wordArray, count) => {
+  const shuffled = wordArray.sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, count);
+};
+
+words = getRandomWords(words, 200);
 
 function App() {
   //game state
@@ -309,10 +316,10 @@ useEffect(() => {
       {isPlaying ? (
         <>
           {/* Game content: visible only when isPlaying is true */}
-          <audio id="shake-sound" src={`${process.env.PUBLIC_URL}/wrong.mp3`}></audio>
-          <audio id="correct" src={`${process.env.PUBLIC_URL}/correct.mp3`}></audio>
-          <audio id="big_ding" src={`${process.env.PUBLIC_URL}/big_ding.mp3`}></audio>
-          <audio id="click" src={`${process.env.PUBLIC_URL}/click.mp3`}></audio>
+          <audio id="shake-sound" src={`${process.env.PUBLIC_URL}/wrong.mp3`} preload="auto"></audio>
+          <audio id="correct" src={`${process.env.PUBLIC_URL}/correct.mp3`} preload="auto"></audio>
+          <audio id="big_ding" src={`${process.env.PUBLIC_URL}/big_ding.mp3`} preload="auto"></audio>
+          <audio id="click" src={`${process.env.PUBLIC_URL}/click.mp3`} preload="auto"></audio>
           <audio controls autoPlay loop>
             <source src={`${process.env.PUBLIC_URL}/unwinding.mp3`} type="audio/mpeg" />
             Your browser does not support the audio element.

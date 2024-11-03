@@ -206,9 +206,18 @@ body {
 .SearchBar {
   width: 80%;
   margin: 0 10px;
-  padding: 5px;
+  padding: 10px;
   border-radius: 5px;
   border: none;
+  background-color: #FF8C00; /* Dark orange background */
+  color: black; /* Black text */
+  font-size: 1em;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.SearchBar::placeholder {
+  color: rgba(0, 0, 0, 0.7); /* Style the placeholder text */
 }
 
 .SavedItem {
