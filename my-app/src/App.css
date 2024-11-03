@@ -30,6 +30,24 @@
   color: #61dafb;
 }
 
+.TopBar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 50px;
+  background-color: #A54F1D;
+  color: white;
+  font-size: 20px;
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+}
+
+.Timer {
+  font-weight: bold;
+}
+
 .MainContent {
   flex: 1;
   /*background-color: #282c34;*/ 
