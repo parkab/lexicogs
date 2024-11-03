@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import HomePage from './Homepage.js' ;
 import './App.css';
 import words from './data/words.json';
 import filters from './Filter/Filters.js';
+import HomePage from './Homepage.js';
 
 function App() {
   //game state
@@ -16,30 +16,81 @@ function App() {
   //filters
   const [currentFilter, setCurrentFilter] = useState(null);
   const [circleFilters, setCircleFilters] = useState([]);
-  
-  //timer
+  const [FilteredWords, setFilteredWords] = useState([]);
+  const [chosenWord, setChosenWord] = useState('');
+  const [wordList, setCurWordList] = useState(words);
+  const [filterCount, setFilterCount] = useState(0);
   const [timeLeft, setTimeLeft] = useState(60);
 
   //filter setup
   useEffect(() => {
     const initialFilters = getRandomFilters(4);
     setCurrentFilter(initialFilters[0]);
-    setCircleFilters(initialFilters.slice(0));
-    console.log('Initial Filters:', initialFilters);
+    setCircleFilters(initialFilters.slice(1));
+    //console.log('Initial Filters:', initialFilters);
+
+    const randomWord = wordList[Math.floor(Math.random() * wordList.length)];
+    setChosenWord(randomWord);
   }, []);
 
   const getRandomFilters = (count) => {
+    // const shuffledFilters = filters.sort(() => 0.5 - Math.random());
+    // const selectedFilters = shuffledFilters.slice(0, count);
+
+    // for (let i = 0; i < selectedFilters.length; i++) {
+    //   if ((filterCount + i + 1) % 4 === 0) {
+    //     selectedFilters[i] = { label: '*', apply: () => [] };
+    //   }
+    // }
+
+    // return selectedFilters;
     const shuffledFilters = filters.sort(() => 0.5 - Math.random());
-    return shuffledFilters.slice(0, count);
+    const tempFilters = shuffledFilters.slice(0, count);
+    const selectedFilters = [];
+
+    for (let i = 0; i < count; i++) {
+      if ((filterCount + i + 1) % 4 === 0) {
+        selectedFilters.push({ label: '*', apply: () => [] });
+      } else {
+        selectedFilters.push(tempFilters.pop());
+      }
+    }
+
+    setFilterCount(filterCount + count);
+    return selectedFilters;
   };
 
   const handleInputChange = (event) => {
-    setSearchInput(event.target.value);
+    if (currentFilter?.label === '*') {
+      setSearchInput('Filter!');
+    } else {
+      setSearchInput(event.target.value);
+    }
   };
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
     setLastEntered(searchInput);
+
+    // if (currentFilter) {
+    //   const filtered = currentFilter.apply(words, searchInput);
+    //   setFilteredWords(filtered);
+    // }
+
+    if (searchInput === 'Filter!') {
+      if (FilteredWords.includes(chosenWord)) {
+        setCurWordList(FilteredWords);
+        //wordList = FilteredWords;
+      }
+      setFilteredWords([]);
+    } else if (currentFilter) {
+      const filtered = currentFilter.apply(wordList, searchInput);
+      setFilteredWords((prevFilteredWords) => [
+        ...new Set([...prevFilteredWords, ...filtered]),
+      ]);
+      //setCurWordList(filtered); //IMPORTANT LINE
+    }
+
     setSearchInput('');
 
     //shifting the filters along
@@ -49,7 +100,6 @@ function App() {
       getRandomFilters(1)[0],
     ]);
   };
-
 
   //countdown timer
   useEffect(() => {
@@ -68,11 +118,7 @@ function App() {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [isPlaying]);
-
-
-  //word movement
-  const wordList = words;
+  }, [isPlaying]); 
 
   //initial positions
   const [positions, setPositions] = useState(
@@ -82,13 +128,11 @@ function App() {
       velocityX: (Math.random() - 0.5) * 2,
       velocityY: (Math.random() - 0.5) * 2, 
     }))
-
   ); //END SET STARTING POSITION OF WORDS
 
 
   const [speed, setSpeed] = useState(2);   //Speed
-  const FilteredWords = ["loupe", 'clank'];
-
+  //const FilteredWords = ["loupe", 'clank'];
 
  // CTRL keydown to toggle speed
  useEffect(() => {
@@ -195,7 +239,7 @@ function App() {
           </div>
           
           <div className="LastEntered">
-            Last Entered: {lastEntered}
+            Last Entered: {lastEntered} || Chosen Word: {chosenWord}
           </div>
         </>
       ) : gameOver ? (
