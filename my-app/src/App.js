@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import HomePage from './Homepage.js' ;
-import GameOver from './Gameover.js' ;
 import './App.css';
 import words from './data/words.json';
 import filters from './Filter/Filters.js';
+import GameOver from './Gameover.js';
+import HomePage from './Homepage.js';
 
 function App() {
   //game state
@@ -22,6 +22,7 @@ function App() {
   const [wordList, setCurWordList] = useState(words);
   const [filterCount, setFilterCount] = useState(0);
   const [timeLeft, setTimeLeft] = useState(60);
+  const [wordsGuessedRight, setWordsGuessedRight] = useState(0);
 
   //filter setup
   useEffect(() => {
@@ -92,14 +93,22 @@ function App() {
       //setCurWordList(filtered); //IMPORTANT LINE
     }
 
-    setSearchInput('');
+    if (searchInput === chosenWord) {
+      
+      setWordsGuessedRight(wordsGuessedRight + 1);
+      
+      setCurWordList(words);
+      const randomWord = wordList[Math.floor(Math.random() * wordList.length)];
+      setChosenWord(randomWord);
+      setFilteredWords([]);
+    }
+    else {
+      //shifting the filters along
+      setCurrentFilter(circleFilters[0]);
+      setCircleFilters((prevFilters) => [...prevFilters.slice(1), getRandomFilters(1)[0],]);
+    }
 
-    //shifting the filters along
-    setCurrentFilter(circleFilters[0]);
-    setCircleFilters((prevFilters) => [
-      ...prevFilters.slice(1),
-      getRandomFilters(1)[0],
-    ]);
+    setSearchInput('');
   };
 
   //countdown timer
@@ -221,7 +230,7 @@ useEffect(() => {
     const randomWord = wordList[Math.floor(Math.random() * wordList.length)];
     setChosenWord(randomWord);
 
-    setTimeLeft(10) ;
+    setTimeLeft(1000) ;
     setGameOver(false) ;
     setWatchTime(10); 
     setSpeed(2);
@@ -246,7 +255,9 @@ useEffect(() => {
           </audio>
 
           <div className="TopBar">
+            <div className="WordsGuessedRight">Words Guessed Right: {wordsGuessedRight}</div>
             <div className="Timer">{timeLeft} seconds</div>
+            <div className="Hint">Hint:</div>
           </div>      
 
           <div className="MainContent">
