@@ -1,6 +1,6 @@
 // GameOver.js
 import React from 'react';
-
+import './HomePage.css';
 const GameOver = ({ onRestart, onReturnToTitle, score }) => {
   return (
     <div className="GameOverScreen">
