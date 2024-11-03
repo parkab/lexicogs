@@ -1,19 +1,27 @@
 // filters.js
 const filters = [
   {
-    label: 'a-',
+    label: 'start',
     apply: (wordList, input) => wordList.filter(word => word.startsWith(input)),
   },
   {
-    label: '-z',
+    label: 'end',
     apply: (wordList, input) => wordList.filter(word => word.endsWith(input)),
   },
   {
-    label: 'n=',
+    label: 'length',
     apply: (wordList, input) => {
       const length = parseInt(input, 10);
       return wordList.filter(word => word.length === length);
     },
+  },
+  {
+    label: 'has',
+    apply: (wordList, input) => wordList.filter(word => word.includes(input)),
+  },
+  {
+    label: 'lacks',
+    apply: (wordList, input) => wordList.filter(word => !word.includes(input)),
   },
   // additional filter types are added here
 ];
