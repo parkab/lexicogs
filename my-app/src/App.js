@@ -24,6 +24,8 @@ function App() {
   const [timeLeft, setTimeLeft] = useState(60);
   const [wordsGuessedRight, setWordsGuessedRight] = useState(0);
 
+  const [baseSpeed, setBaseSpeed] = useState(0.7);
+
   //filter setup
   useEffect(() => {
     const initialFilters = getRandomFilters(4);
@@ -95,6 +97,12 @@ function App() {
 
     if (searchInput === chosenWord) {
       
+      setBaseSpeed(prevBaseSpeed => {
+        const newSpeed = prevBaseSpeed + 1;
+        setSpeed(newSpeed); // Update speed in sync with baseSpeed
+        return newSpeed;
+    });
+
       setWordsGuessedRight(wordsGuessedRight + 1);
       
       setCurWordList(words);
@@ -135,13 +143,13 @@ function App() {
     wordList.map(() => ({
       top: Math.random() * 80 + '%', 
       left: Math.random() * 80 + '%',
-      velocityX: (Math.random() - 0.5) * 2,
-      velocityY: (Math.random() - 0.5) * 2, 
+      velocityX: (Math.random() - 0.5) * baseSpeed,
+      velocityY: (Math.random() - 0.5) * baseSpeed, 
     }))
   ); //END SET STARTING POSITION OF WORDS
 
 
-  const [speed, setSpeed] = useState(2);   //Speed
+  const [speed, setSpeed] = useState(baseSpeed);   //Speed
   const [watchTime, setWatchTime] = useState(10); 
   const [isWatchActive, setIsWatchActive] = useState(false);
   //const FilteredWords = ["loupe", 'clank'];
@@ -152,12 +160,12 @@ function App() {
     if (event.key === 'Control' || event.code === 'ControlLeft') {
       if (watchTime > 0) {
         setSpeed((prevSpeed) => {
-          const newSpeed = prevSpeed === 2 ? 0.3 : 2;
+          const newSpeed = prevSpeed === baseSpeed ? 0.3 : baseSpeed;
           setIsWatchActive(newSpeed === 0.3);
           return newSpeed;
         });
       } else if (speed === 0.3) {
-        setSpeed(2);
+        setSpeed(baseSpeed);
         setIsWatchActive(false);
       }
     }
@@ -168,7 +176,7 @@ function App() {
   return () => {
     window.removeEventListener('keydown', handleKeyDown);
   };
-}, [watchTime]); //END SPEED CONTROL
+}, [watchTime, baseSpeed]); //END SPEED CONTROL
 
 // Watch timer countdown
 useEffect(() => {
@@ -179,7 +187,7 @@ useEffect(() => {
         const newTime = prevTime - 1;
         if (newTime <= 0) {
           // When time runs out, force speed back to normal
-          setSpeed(2);
+          setSpeed(baseSpeed);
           setIsWatchActive(false);
           return 0;
         }
@@ -233,7 +241,8 @@ useEffect(() => {
     setTimeLeft(1000) ;
     setGameOver(false) ;
     setWatchTime(10); 
-    setSpeed(2);
+    setBaseSpeed(0.5);
+    setSpeed(baseSpeed);
     setIsWatchActive(false);
   } ;
 
