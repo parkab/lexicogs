@@ -38,6 +38,10 @@ function App() {
   const [hint, setHint] = useState("");
   const [revealedLettersCount, setRevealedLettersCount] = useState(0);
 
+  const [speed, setSpeed] = useState(baseSpeed);   //Speed
+  const [watchTime, setWatchTime] = useState(10.0); 
+  const [isWatchActive, setIsWatchActive] = useState(false);
+  //const FilteredWords = ["loupe", 'clank'];
   //filter setup
   useEffect(() => {
     const initialFilters = getRandomFilters(4);
@@ -81,7 +85,6 @@ function App() {
     setRevealedLettersCount(0);
   }, [chosenWord]);
 
-  // Update the hint every 10 seconds
   useEffect(() => {
     const revealInterval = setInterval(() => {
       if (revealedLettersCount < 4) {
@@ -111,7 +114,7 @@ function App() {
         });
         setRevealedLettersCount(revealedLettersCount + 1);
       }
-    }, 10000); // Every 10 seconds
+    }, 15000); // Every 15 seconds
 
     return () => clearInterval(revealInterval);
   }, [revealedLettersCount, chosenWord]);
@@ -147,7 +150,7 @@ function App() {
       if (FilteredWords.includes(chosenWord)) {
         const correctSound = document.getElementById('correct');
         correctSound.play();
-
+        setTimeLeft((prevTimeLeft) => prevTimeLeft + 10);
         const mainContainer = document.querySelector('.MainContent');
         if (mainContainer) {
           mainContainer.classList.add('bounce');
@@ -205,6 +208,8 @@ function App() {
     });
 
       setWordsGuessedRight(wordsGuessedRight + 1);
+      setTimeLeft((prevTimeLeft) => prevTimeLeft + 30);
+      setWatchTime((prevTimeLeft) => prevTimeLeft + 5);
       
       setCurWordList(words);
       setFilteredWords([]);
@@ -223,8 +228,8 @@ function App() {
   //countdown timer
   useEffect(() => {
     if (!isPlaying) return;
-
-    const timer = setInterval(() => {
+    if (!isWatchActive){
+      const timer = setInterval(() => {
       setTimeLeft((prevTime) => {
         if (prevTime <= 1) {
           setGameOver(true) ;
@@ -235,9 +240,9 @@ function App() {
         return prevTime - 1 ;
       }) ;
     }, 1000);
-
     return () => clearInterval(timer);
-  }, [isPlaying]); 
+  }
+  }, [isPlaying, isWatchActive]); 
 
   //initial positions
   const [positions, setPositions] = useState(
@@ -250,10 +255,7 @@ function App() {
   ); //END SET STARTING POSITION OF WORDS
 
 
-  const [speed, setSpeed] = useState(baseSpeed);   //Speed
-  const [watchTime, setWatchTime] = useState(10.0); 
-  const [isWatchActive, setIsWatchActive] = useState(false);
-  //const FilteredWords = ["loupe", 'clank'];
+  
 
  // CTRL keydown to toggle speed
  useEffect(() => {
