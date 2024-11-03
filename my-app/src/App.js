@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import HomePage from './Homepage.js' ;
+import Controls from './Controls.js' ;
 import GameOver from './Gameover.js' ;
 import './App.css';
 import words from './data/words.json';
@@ -9,6 +10,7 @@ function App() {
   //game state
   const [isPlaying, setIsPlaying] = useState(false) ;
   const [gameOver, setGameOver] = useState(false) ;
+  const [showControls, setShowControls] = useState(false) ;
 
   //user inputs
   const [searchInput, setSearchInput] = useState('');
@@ -230,8 +232,8 @@ useEffect(() => {
 
 //function to return to title
   const returnToTitle = () => {
-    console.log("Returning to title") ;
-    setIsPlaying(false);  
+    setIsPlaying(false);
+    setShowControls(false);  
     setGameOver(false);   
   };  
 
@@ -294,9 +296,13 @@ useEffect(() => {
         </>
       ) : gameOver ? (
         <GameOver onRestart ={startGame} onReturnToTitle={returnToTitle} />
+      ) : showControls ? (
+        <Controls onReturnToTitle={returnToTitle} />
       ) : (
-        // Render only the HomePage when `isPlaying` is false
-        <HomePage onStart={startGame} />
+        <HomePage 
+          onStart={startGame}
+          onShowControls = {() => setShowControls(true)}
+        />
       )}
     </div>
   );

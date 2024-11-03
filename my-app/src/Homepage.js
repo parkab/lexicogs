@@ -1,6 +1,6 @@
 import React from 'react';
 
-const HomePage = ({ onStart }) => {
+const HomePage = ({ onStart, onShowControls }) => {
   return (
     <div className="HomePage">
       <h1>Welcome to Dr. OctoSplunker!</h1>
@@ -10,12 +10,7 @@ const HomePage = ({ onStart }) => {
         Quickly do so before the time runs out!
       </p>
       <button onClick={onStart}>Play</button>
-      <p>
-      Controls:<br />
-      Ctrl: Slows down time<br />
-      Keyboard: Inputs for filters<br />
-      Enter: Applies your filter 
-      </p>
+      <button onClick={onShowControls}>Controls</button>
     </div>
   );
 };
