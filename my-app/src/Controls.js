@@ -1,5 +1,5 @@
 import React from 'react';
-
+import './HomePage.css';
 const Controls = ({ onReturnToTitle }) => {
     return (
       <div className="ControlsScreen">

@@ -235,7 +235,7 @@ function App() {
     });
 
       setWordsGuessedRight(wordsGuessedRight + 1);
-      setTimeLeft((prevTimeLeft) => prevTimeLeft + 30);
+
       setWatchTime((prevTimeLeft) => prevTimeLeft + 5);
       
       setCurWordList(words);
@@ -460,9 +460,6 @@ useEffect(() => {
             <div className="Circle SmallCircle">{circleFilters[2]?.label}</div>
           </div>
           
-          <div className="LastEntered">
-            Last Entered: {lastEntered} 
-          </div>
         </>
       ) : gameOver ? (
         <GameOver score={wordsGuessedRight} onRestart ={startGame} onReturnToTitle={returnToTitle}/>
