@@ -30,6 +30,49 @@
   color: #61dafb;
 }
 
+.HomePage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+  background-color: #111;
+  color: #fff;
+}
+
+.HomePage h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.HomePage p {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+}
+.HomePage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+  background-color: #111;
+  color: #fff;
+}
+
+.HomePage button {
+  padding: 0.5rem 2rem;
+  font-size: 1rem;
+  margin: 5 px ;
+  cursor: pointer;
+}
+
+.HomePage button:hover {
+  background-color: #0056b3;
+  padding: 0.75rem 3rem;
+}
+
 .TopBar {
   display: flex;
   justify-content: center;
@@ -166,6 +209,11 @@
   font-size: 1rem;
   cursor: pointer;
 }
+
+.GameOverScreen button:hover {
+  background-color: #0056b3;
+}
+
 
 @keyframes App-logo-spin {
   from {

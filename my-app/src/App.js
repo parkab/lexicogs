@@ -190,9 +190,16 @@ function App() {
     const randomWord = wordList[Math.floor(Math.random() * wordList.length)];
     setChosenWord(randomWord);
 
-    setTimeLeft(60) ;
+    setTimeLeft(10) ;
     setGameOver(false) ;
   } ;
+
+//function to return to title
+  const returnToTitle = () => {
+    console.log("Returning to title") ;
+    setIsPlaying(false);  
+    setGameOver(false);   
+  };  
 
   return (
     <div className="App">
@@ -249,7 +256,7 @@ function App() {
           </div>
         </>
       ) : gameOver ? (
-        <GameOver onRestart ={startGame} />
+        <GameOver onRestart ={startGame} onReturnToTitle={returnToTitle} />
       ) : (
         // Render only the HomePage when `isPlaying` is false
         <HomePage onStart={startGame} />
