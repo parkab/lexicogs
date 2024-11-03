@@ -40,8 +40,8 @@ function App() {
     ]);
   };
 
-  const wordList = words;
-  //START
+  const wordList = words; //
+  //SET STARTING POSITION OF WORDS
   const [positions, setPositions] = useState(
     wordList.map(() => ({
       top: Math.random() * 80 + '%', 
@@ -49,12 +49,27 @@ function App() {
       velocityX: (Math.random() - 0.5) * 2,
       velocityY: (Math.random() - 0.5) * 2, 
     }))
-  ); //END
+  ); //END SET STARTING POSITION OF WORDS
 
-  const [speed, setSpeed] = useState(.5);   //Speed
+  const [speed, setSpeed] = useState(2);   //Speed
   const FilteredWords = ["loupe", 'clank'];
 
-  //START
+ // CTRL keydown to toggle speed
+ useEffect(() => {
+  const handleKeyDown = (event) => {
+    if (event.key === 'Control' || event.code === 'ControlLeft') {
+      setSpeed((prevSpeed) => (prevSpeed === 2 ? 0.3 : 2));
+    }
+  };
+
+  window.addEventListener('keydown', handleKeyDown);
+
+  return () => {
+    window.removeEventListener('keydown', handleKeyDown);
+  };
+}, []); //END SPEED CONTROL
+
+  //MOVING WORDS
   useEffect(() => {
     const updatePositions = () => {
       setPositions((prevPositions) =>
@@ -64,11 +79,9 @@ function App() {
 
           if (newX > 95 || newX < 0) {
             pos.velocityX *= -1; 
-            //console.log(`Reversed X velocity for position: ${pos.left}, ${pos.top}`);
           }
           if (newY > 95 || newY < 0) {
             pos.velocityY *= -1; 
-            //console.log(`Reversed Y velocity for position: ${pos.left}, ${pos.top}`);
           }
 
           return {
@@ -78,16 +91,15 @@ function App() {
           };
         })
       );
-      //console.log("Updated positions:", positions);
     };
 
     const interval = setInterval(updatePositions, 1000 / 60);
 
     return () => {
       clearInterval(interval);
-      //console.log("Interval cleared");
     };
-  }, []); // END
+  }, [speed]); // END MOVING WORDS
+
 //function to start the game
   const startGame = () => {
     setIsPlaying(true) ;
