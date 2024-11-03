@@ -50,7 +50,11 @@
 
 .MainContent {
   flex: 1;
-  background-color: #282c34;
+  /*background-color: #282c34;*/ 
+  background-image: url("/public/GearBackground.jpg");
+  background-size: cover; 
+  background-position: center; 
+  background-repeat: no-repeat; 
   color: white;
   position: relative;
   width: 100%;
