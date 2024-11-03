@@ -28,6 +28,9 @@ function App() {
 
   const [baseSpeed, setBaseSpeed] = useState(0.7);
 
+  const [hint, setHint] = useState("");
+  const [revealedLettersCount, setRevealedLettersCount] = useState(0);
+
   //filter setup
   useEffect(() => {
     const initialFilters = getRandomFilters(4);
@@ -65,6 +68,46 @@ function App() {
     setFilterCount(filterCount + count);
     return selectedFilters;
   };
+  //Hint Setup
+  useEffect(() => {
+    setHint("_ _ . . . _ _");
+    setRevealedLettersCount(0);
+  }, [chosenWord]);
+
+  // Update the hint every 10 seconds
+  useEffect(() => {
+    const revealInterval = setInterval(() => {
+      if (revealedLettersCount < 4) {
+        setHint((prevHint) => {
+          const [firstLetter, secondLetter] = chosenWord.slice(0, 2);
+          const [secondLastLetter, lastLetter] = chosenWord.slice(-2);
+
+          let updatedHint;
+          switch (revealedLettersCount) {
+            case 0:
+              updatedHint = `$_ _ . . . ${secondLastLetter} _`;
+              break;
+            case 1:
+              updatedHint = `$_ ${secondLetter} . . . ${secondLastLetter} _`;
+              break;
+            case 2:
+              updatedHint = `_ ${secondLetter} . . . ${secondLastLetter} ${lastLetter}`;
+              break;
+            case 3:
+              updatedHint = `${firstLetter} ${secondLetter} . . . ${secondLastLetter} ${lastLetter}`;
+              break;
+            default:
+              updatedHint = prevHint;
+          }
+
+          return updatedHint;
+        });
+        setRevealedLettersCount(revealedLettersCount + 1);
+      }
+    }, 10000); // Every 10 seconds
+
+    return () => clearInterval(revealInterval);
+  }, [revealedLettersCount, chosenWord]);
 
   useEffect(() => {
     if (currentFilter?.label === '*') {
@@ -201,7 +244,7 @@ function App() {
 
 
   const [speed, setSpeed] = useState(baseSpeed);   //Speed
-  const [watchTime, setWatchTime] = useState(10); 
+  const [watchTime, setWatchTime] = useState(10.0); 
   const [isWatchActive, setIsWatchActive] = useState(false);
   //const FilteredWords = ["loupe", 'clank'];
 
@@ -235,7 +278,7 @@ useEffect(() => {
   if (isWatchActive && watchTime > 0) {
     timer = setInterval(() => {
       setWatchTime((prevTime) => {
-        const newTime = prevTime - 1;
+        const newTime = prevTime - 0.1;
         if (newTime <= 0) {
           // When time runs out, force speed back to normal
           setSpeed(baseSpeed);
@@ -244,7 +287,7 @@ useEffect(() => {
         }
         return newTime;
       });
-    }, 1000);
+    }, 100);
   }
   return () => clearInterval(timer);
 }, [isWatchActive]);
@@ -321,7 +364,7 @@ useEffect(() => {
           <div className="TopBar">
             <div className="WordsGuessedRight">Words Guessed Right: {wordsGuessedRight}</div>
             <div className="Timer">{timeLeft} seconds</div>
-            <div className="Hint">Hint:</div>
+            <div className="Hint">Hint: {hint}</div>
           </div>      
 
           <div className="MainContent">
@@ -346,7 +389,7 @@ useEffect(() => {
             <div className="Circle SavedItem">Saved</div>
             <div className="WatchContainer">
               <button className="Watch"></button>
-              <div className="WatchTimer">{watchTime}s</div>
+              <div className="WatchTimer">{watchTime.toFixed(1)}s</div>
             </div>
             <form onSubmit={handleFormSubmit} className="SearchForm">
               <input
