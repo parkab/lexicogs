@@ -184,6 +184,11 @@ function App() {
 //function to start the game
   const startGame = () => {
     setIsPlaying(true) ;
+
+    setCurWordList(words);
+    const randomWord = wordList[Math.floor(Math.random() * wordList.length)];
+    setChosenWord(randomWord);
+
     setTimeLeft(60) ;
     setGameOver(false) ;
   } ;
