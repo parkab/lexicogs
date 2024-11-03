@@ -289,7 +289,7 @@ useEffect(() => {
     const randomWord = words[Math.floor(Math.random() * words.length)];
     setChosenWord(randomWord);
 
-    setTimeLeft(1000) ;
+    setTimeLeft(60) ;
     setGameOver(false) ;
     setWatchTime(10); 
     setBaseSpeed(0.5);
