@@ -5,7 +5,7 @@ const GameOver = ({ onRestart, onReturnToTitle }) => {
   return (
     <div className="GameOverScreen">
       <h1>Game Over</h1>
-      <p>Time is up! Dr. OctoSplunker grappled you.</p>
+      <p>Time is up! The Lexicogs ran out of steam.</p>
       <button onClick={onRestart}>Play Again</button>
       <button onClick={onReturnToTitle}>Return to Title</button>
     </div>

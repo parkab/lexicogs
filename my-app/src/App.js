@@ -343,7 +343,6 @@ useEffect(() => {
           </div>
 
           <div className="BottomBar">
-            <div className="Circle SavedItem">Saved</div>
             <div className="WatchContainer">
               <button className="Watch"></button>
               <div className="WatchTimer">{watchTime}s</div>

@@ -15,6 +15,15 @@
   }
 }
 
+@keyframes rotate {
+  from {
+      transform: rotate(0deg);
+  }
+  to {
+      transform: rotate(360deg);
+  }
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -102,9 +111,8 @@ body {
   font-size: 1 rem ;
   cursor: pointer ;
   transition: background-color 0.5s ease, color 0.5s ease;
-
-
 }
+
 .ControlsScreen button:hover {
   background-color: #111;
   color: #fff ;}
@@ -161,10 +169,11 @@ body {
   border-radius: 50%; /*circle*/
   background-image: url('/public/Gear.png');
   background-size: cover;
-  width: 150 px;
-  height: 150 px;
+  width: 100 px;
+  height: 100 px;
   text-align: center;
   margin: 0 10px;
+  animation: rotate 10s linear infinite ;
 }
 
 .WatchContainer {
@@ -192,11 +201,6 @@ body {
   cursor: pointer;
 }
 
-.SavedItem {
-  width: 50px;
-  height: 50px;
-}
-
 .SearchForm {
   flex: 1;
   margin: 0 10px;
@@ -211,28 +215,26 @@ body {
   border: none;
 }
 
-.SavedItem {
-  width: 140px;
-  height: 140px;
-  background-image: url('/public/Gear.png')  
-}
-
 .SmallCircle {
-  width: 120px;
-  height: 120px;
-  background-image: url('/public/Gear.png')
+  width: 70px;
+  height: 70px;
+  background-image: url('/public/Gear.png');
+  animation: rotate 10s linear infinite ;
 }
 
 .MediumCircle {
-  width: 150px;
-  height: 150px;
-  background-image: url('/public/Gear.png')
+  width: 100px;
+  height: 100px;
+  background-image: url('/public/Gear.png');
+  animation: rotate 10s linear infinite ;
 }
 
 .LargeCircle {
-  width: 170px;
-  height: 170px;
-  background-image: url('/public/Gear.png')
+  width: 120px;
+  height: 120px;
+  margin-left: 10px;
+  background-image: url('/public/Gear.png');
+  animation: rotate 10s linear infinite ;
 }
 
 .LastEntered {
@@ -241,10 +243,21 @@ body {
 }
 
 .CurrentFilter {
+  display: flex;
+  justify-content: center ;
+  align-items: cnter ;
   color: rgb(6, 255, 164);
-  margin-left: 10px;
+  margin-right: 70px;
   font-size: 1.2em;
-}
+  background-image: url('/public/GoldGear.png');
+  background-size: 100px;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 100px;
+  height: 100px;
+  text-align: center ;
+  line-height: 5 ;
+} 
 
 .LastEntered {
   margin-top: 10px;
