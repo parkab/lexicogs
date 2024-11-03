@@ -150,11 +150,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
-  background-color: #D97330;
-  color: black;
+  border-radius: 50%; /*circle*/
+  background-image: url('/public/Gear.png');
+  background-size: cover;
+  width: 150 px;
+  height: 150 px;
   text-align: center;
   margin: 0 10px;
+}
+
+.WatchContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .Watch {
@@ -168,16 +176,17 @@
   border: none;
 }
 
-.SavedItem {
-  width: 50px;
-  height: 50px;
-}
-
 .Stopwatch {
   width: 50px;
   height: 50px;
+  margin-top: 5px; 
   border: none;
   cursor: pointer;
+}
+
+.SavedItem {
+  width: 50px;
+  height: 50px;
 }
 
 .SearchForm {
@@ -194,19 +203,28 @@
   border: none;
 }
 
+.SavedItem {
+  width: 140px;
+  height: 140px;
+  background-image: url('/public/Gear.png')  
+}
+
 .SmallCircle {
-  width: 40px;
-  height: 40px;
+  width: 120px;
+  height: 120px;
+  background-image: url('/public/Gear.png')
 }
 
 .MediumCircle {
-  width: 50px;
-  height: 50px;
+  width: 150px;
+  height: 150px;
+  background-image: url('/public/Gear.png')
 }
 
 .LargeCircle {
-  width: 60px;
-  height: 60px;
+  width: 170px;
+  height: 170px;
+  background-image: url('/public/Gear.png')
 }
 
 .LastEntered {
