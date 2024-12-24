@@ -9,19 +9,19 @@ const Controls = ({ onReturnToTitle }) => {
           <div className="left-section">
 
             <h1>How This Game Works</h1>
-            <p>The bar at the top of the screen shows your current score, your timer, and hints for the target word. Every round, new words are randomly generated to bounce across the screen along with a new random target word.</p>
+            <p>The bar at the top of the screen shows your current score, your timer, and hints for the target word. Every round, a new target word and new words to bounce across the screen are randomly generated.</p>
             <p>After typing into the search bar, you can apply the current filter on the remaining words. Words that match the filter will become highlighted blue.</p>
-            <p>You'll have multiple selection filters to apply before you can actually filter. All of these filters stack! For example, applying starts with 'a' and then ends with 'r' would highlight both 'apple' and 'pear'.</p>
+            <p>You'll have multiple selection filters to apply before you can actually filter. All of these filters stack! For example, applying 'start' with 'a' and then 'end' with 'r' would highlight both 'apple' and 'pear'.</p>
 
             <h1>The Search Bar</h1>
-            <p>Type in a single letter (number for length) when dealing with filters.</p>
+            <p>Type in a single letter (a single number for the 'length' filter) when dealing with filters.</p>
             <p>When * is next, press enter to filter on the current selection.</p>
             <p>If the target word is one of the highlighted words, * will remove all non-highlighted words. If the targeted word is not one of the highlighted words, nothing happens.</p>
-            <p>Type in the full word whenever you think you found it! If right, you'll get a satisfying ding and a new round will begin.</p>
+            <p>Enter the target word at any point if you think you found it! If right, a new round will begin.</p>
 
             <h1>Difficulty Ramping</h1>
             <p>As you guess more words correctly, the words will start moving across the screen faster and faster.</p>
-            <p>The time added per correct guess starts at 60 seconds, but decreases by 5 seconds every correct guess until a minimum of 30 seconds added.</p>
+            <p>The time added per correct guess starts at 60 seconds, but decreases by 5 seconds every correct guess until a minimum of 30 seconds is added per correct guess.</p>
             <p>Tip: Build up your game timer as much as possible early game so you can get a higher score!</p>
           </div>
 

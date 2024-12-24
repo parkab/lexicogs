@@ -41,7 +41,7 @@
 
 body {
   background-color: black;
-  color: white; /* Ensure text is readable on a black background */
+  color: white;
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
@@ -140,7 +140,6 @@ body {
 
 .MainContent {
   flex: 1;
-  /*background-color: #282c34;*/ 
   background-image: url("/public/GearBackground.jpg");
   background-size: cover; 
   background-position: center; 
@@ -166,7 +165,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%; /*circle*/
+  border-radius: 50%;
   background-image: url('/public/Gear.png');
   background-size: cover;
   width: 100 px;
@@ -213,15 +212,15 @@ body {
   padding: 10px;
   border-radius: 5px;
   border: none;
-  background-color: #FF8C00; /* Dark orange background */
-  color: black; /* Black text */
+  background-color: #FF8C00;
+  color: black;
   font-size: 1em;
   outline: none;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
 
 .SearchBar::placeholder {
-  color: rgba(0, 0, 0, 0.7); /* Style the placeholder text */
+  color: rgba(0, 0, 0, 0.7);
 }
 
 .SmallCircle {
@@ -232,15 +231,15 @@ body {
 }
 
 .MediumCircle {
-  width: 100px;
-  height: 100px;
+  width: 85px;
+  height: 90px;
   background-image: url('/public/Gear.png');
   animation: rotate 10s linear infinite ;
 }
 
 .LargeCircle {
-  width: 120px;
-  height: 120px;
+  width: 100px;
+  height: 100px;
   margin-left: 10px;
   background-image: url('/public/Gear.png');
   animation: rotate 10s linear infinite ;
@@ -256,7 +255,7 @@ body {
   justify-content: center ;
   align-items: cnter ;
   color: rgb(6, 255, 164);
-  margin-right: 70px;
+  margin-right: 100px;
   font-size: 1.2em;
   background-image: url('/public/GoldGear.png');
   background-size: 100px;
