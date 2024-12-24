@@ -1,0 +1,47 @@
+.ControlsScreen {
+    display: grid;
+    grid-template-rows: 1fr auto;
+    height: 100vh;
+    padding: 20px;
+}
+
+.controls-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.left-section,
+.right-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow-y: auto;
+}
+
+.left-section h1,
+.right-section h1 {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.controls-content p {
+    margin-bottom: 8px;
+    font-size: 18px;
+    /* font-weight: bold; */
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
+}
+
+.button-container button {
+    padding: 10px 20px;
+    font-size: 16px;
+}

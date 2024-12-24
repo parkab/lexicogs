@@ -11,7 +11,8 @@ const getRandomWords = (wordArray, count) => {
   return shuffled.slice(0, count);
 };
 
-words = getRandomWords(words, 200);
+let randomWords = getRandomWords(words, 150);
+let timeIncrement = 65;
 
 function App() {
   //game state
@@ -29,7 +30,7 @@ function App() {
   const [circleFilters, setCircleFilters] = useState([]);
   const [FilteredWords, setFilteredWords] = useState([]);
   const [chosenWord, setChosenWord] = useState('');
-  const [wordList, setCurWordList] = useState(words);
+  const [wordList, setCurWordList] = useState(randomWords);
   const [filterCount, setFilterCount] = useState(0);
   const [timeLeft, setTimeLeft] = useState(60);
   const [wordsGuessedRight, setWordsGuessedRight] = useState(0);
@@ -47,7 +48,7 @@ function App() {
   }, [isPlaying]);
 
   const [speed, setSpeed] = useState(baseSpeed);   //Speed
-  const [watchTime, setWatchTime] = useState(10.0); 
+  const [watchTime, setWatchTime] = useState(20.0); 
   const [isWatchActive, setIsWatchActive] = useState(false);
   //const FilteredWords = ["loupe", 'clank'];
   //filter setup
@@ -57,7 +58,7 @@ function App() {
     setCircleFilters(initialFilters.slice(1));
     //console.log('Initial Filters:', initialFilters);
 
-    const randomWord = words[Math.floor(Math.random() * words.length)];
+    const randomWord = randomWords[Math.floor(Math.random() * randomWords.length)];
     setChosenWord(randomWord);
   }, []);
 
@@ -98,12 +99,14 @@ function App() {
     const initialFilters = getRandomFilters(4);
     setCurrentFilter(initialFilters[0]);
     setCircleFilters(initialFilters.slice(1));
-    setCurWordList(words);
-    const randomWord = words[Math.floor(Math.random() * words.length)];
+    setCurWordList(randomWords);
+    const randomWord = randomWords[Math.floor(Math.random() * randomWords.length)];
     setChosenWord(randomWord);
     setFilteredWords([]);
-    setWordsGuessedRight(0);
+    //setWordsGuessedRight(0);
     setTimeLeft(60);
+    setBaseSpeed(0.5);
+    setSpeed(baseSpeed);
   };
 
   //Hint Setup
@@ -122,10 +125,10 @@ function App() {
           let updatedHint;
           switch (revealedLettersCount) {
             case 0:
-              updatedHint = `$_ _ . . . ${secondLastLetter} _`;
+              updatedHint = `_ _ . . . ${secondLastLetter} _`;
               break;
             case 1:
-              updatedHint = `$_ ${secondLetter} . . . ${secondLastLetter} _`;
+              updatedHint = `_ ${secondLetter} . . . ${secondLastLetter} _`;
               break;
             case 2:
               updatedHint = `_ ${secondLetter} . . . ${secondLastLetter} ${lastLetter}`;
@@ -177,7 +180,7 @@ function App() {
       if (FilteredWords.includes(chosenWord)) {
         const correctSound = document.getElementById('correct');
         correctSound.play();
-        setTimeLeft((prevTimeLeft) => prevTimeLeft + 5);
+        //setTimeLeft((prevTimeLeft) => prevTimeLeft + 5);
         const mainContainer = document.querySelector('.MainContent');
         if (mainContainer) {
           mainContainer.classList.add('bounce');
@@ -229,20 +232,25 @@ function App() {
       }
       
       setBaseSpeed(prevBaseSpeed => {
-        const newSpeed = prevBaseSpeed + 1;
+        const newSpeed = prevBaseSpeed + 0.5;
         setSpeed(newSpeed); // Update speed in sync with baseSpeed
         return newSpeed;
     });
 
       setWordsGuessedRight(wordsGuessedRight + 1);
 
-      setWatchTime((prevTimeLeft) => prevTimeLeft + 5);
+      //setWatchTime((prevTimeLeft) => prevTimeLeft + 5);
       
-      setCurWordList(words);
+      randomWords = getRandomWords(words, 150);
+      setCurWordList(randomWords);
       setFilteredWords([]);
-      const randomWord = words[Math.floor(Math.random() * words.length)];
+
+      if (timeIncrement > 30){
+        timeIncrement = timeIncrement - 5;
+      }
+      const randomWord = randomWords[Math.floor(Math.random() * randomWords.length)];
       setChosenWord(randomWord);
-      setTimeLeft((prevTimeLeft) => prevTimeLeft + 30);
+      setTimeLeft((prevTimeLeft) => prevTimeLeft + timeIncrement);
     }
     else {
       //shifting the filters along
@@ -332,16 +340,16 @@ useEffect(() => {
 
 useEffect(() => {
   let incrementTimer;
-  if (!isWatchActive && watchTime < 10) { // Assuming 10 is the max watch time
+  if (!isWatchActive && watchTime < 20.0) { // Assuming 10 is the max watch time
     incrementTimer = setInterval(() => {
       setWatchTime((prevTime) => {
         const newTime = prevTime + 0.1;
-        if (newTime >= 10) {
-          return 10; // Cap the watch time at 10
+        if (newTime >= 20.0) {
+          return 20.0; // Cap the watch time at 10
         }
         return newTime;
       });
-    }, 1000); // Increment every second
+    }, 500); // Increment every half-second
   }
   return () => clearInterval(incrementTimer);
 }, [isWatchActive, watchTime])
@@ -382,17 +390,19 @@ useEffect(() => {
   const startGame = () => {
     setIsPlaying(true) ;
 
-    setCurWordList(words);
-    const randomWord = words[Math.floor(Math.random() * words.length)];
+    randomWords = getRandomWords(words, 150);
+    setCurWordList(randomWords);
+    const randomWord = randomWords[Math.floor(Math.random() * randomWords.length)];
     setChosenWord(randomWord);
 
-    setTimeLeft(90) ;
-    setGameOver(false) ;
-    setWatchTime(10); 
-    setBaseSpeed(0.5);
+    setTimeLeft(90);
+    setGameOver(false);
+    setWordsGuessedRight(0);
+    setWatchTime(20.0); 
+    setBaseSpeed(0.7);
     setSpeed(baseSpeed);
     setIsWatchActive(false);
-  } ;
+  };
 
 //function to return to title
   const returnToTitle = () => {
@@ -417,7 +427,7 @@ useEffect(() => {
 
           <div className="TopBar">
             <div className="WordsGuessedRight">Words Guessed Right: {wordsGuessedRight}</div>
-            <div className="Timer">{timeLeft} seconds</div>
+            <div className="Timer">Time: {timeLeft}</div>
             <div className="Hint">Hint: {hint}</div>
           </div>      
 
