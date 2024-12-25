@@ -21,7 +21,7 @@ const Controls = ({ onReturnToTitle }) => {
 
             <h1>Difficulty Ramping</h1>
             <p>As you guess more words correctly, the words will start moving across the screen faster and faster.</p>
-            <p>The time added per correct guess starts at 60 seconds, but decreases by 5 seconds every correct guess until a minimum of 30 seconds is added per correct guess.</p>
+            <p>The time added per correct guess starts at 60 seconds, but decreases by 5 seconds every correct guess until a minimum of 20 seconds is added per correct guess.</p>
             <p>Tip: Build up your game timer as much as possible early game so you can get a higher score!</p>
           </div>
 

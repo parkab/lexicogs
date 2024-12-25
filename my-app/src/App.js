@@ -245,7 +245,7 @@ function App() {
       setCurWordList(randomWords);
       setFilteredWords([]);
 
-      if (timeIncrement > 30){
+      if (timeIncrement > 20){
         timeIncrement = timeIncrement - 5;
       }
       const randomWord = randomWords[Math.floor(Math.random() * randomWords.length)];
